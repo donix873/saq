@@ -1,5 +1,8 @@
-const pptxgen = require('pptxgenjs');
-const path = require('node:path');
+import pptxgen from 'pptxgenjs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const pptx = new pptxgen();
 pptx.layout = 'LAYOUT_WIDE';
@@ -13,6 +16,7 @@ pptx.theme = { headFontFace: 'Noto Sans', bodyFontFace: 'Noto Sans', lang: 'kk-K
 const ROOT = __dirname;
 const V = path.join(ROOT, '..', 'visuals');
 const A = path.join(ROOT, 'assets');
+const QR = path.join(ROOT, '..', 'assets', 'saq-beta-qr.png');
 const F = 'Noto Sans';
 const ST = pptx.ShapeType;
 const C = {
@@ -391,11 +395,76 @@ function note(slide, value) { slide.addNotes(value); }
   txt(s, 'Бигелді Алдияр', 0.98, 4.44, 3.1, 0.38, { fontSize: 18, bold: true });
   txt(s, 'saq.protection@gmail.com', 0.98, 4.99, 3.9, 0.3, { fontSize: 12, color: C.text, bold: true });
   txt(s, '@saq_kz_bot', 0.98, 5.39, 2.9, 0.3, { fontSize: 12, color: C.text, bold: true });
-  pill(s, 'ВЕБ-САЙТ · ЖУЫРДА', 0.67, 6.22, 1.85, C.orange, C.ink);
+  pill(s, 'БЕТА · SAQ-NINE.VERCEL.APP', 0.67, 6.22, 2.72, C.orange, C.ink);
   txt(s, 'SAQ', 9.2, 5.88, 2.55, 0.7, { fontSize: 42, bold: true, align: 'right' });
   txt(s, 'Сақ бол. Қауіпсіз бол.', 8.25, 6.54, 3.5, 0.36, { fontSize: 14, color: C.cyan, bold: true, align: 'right' });
   txt(s, '11', 12.18, 7.08, 0.55, 0.16, { fontSize: 7, color: '6B808C', align: 'right' });
   note(s, 'SAQ — әжемді алдауға тырысқан бір оқиғадан басталған идея. Енді оны нақты адамдармен тексерілетін өнімге айналдырғым келеді. Егер сіз тест пайдаланушы, тәлімгер немесе пилоттық серіктес бола алсаңыз, көрсетілген байланыс арналары арқылы хабарласыңыз. Сенбес бұрын ойлан.');
+}
+
+// 12 — Жұмыс істейтін бета-нұсқа
+{
+  const s = pptx.addSlide();
+  bg(s, path.join(V, 'slide-04.png'), 38);
+  brand(s, 12, 'Жұмыс істейтін бета-нұсқа');
+  txt(s, 'SAQ енді жұмыс істейді', 0.6, 0.95, 6.7, 0.72, { fontSize: 30, bold: true });
+
+  pill(s, 'ҚАЗІР ҚОЛЖЕТІМДІ', 0.62, 1.84, 1.72, C.green, C.ink);
+  txt(s, 'Күмәнді мәтінді немесе сілтемені әрекет жасамай тұрып тексеріңіз.', 0.62, 2.42, 3.62, 1.0, { fontSize: 20, bold: true, valign: 'top' });
+  txt(s, 'Бета-нұсқада:', 0.62, 3.68, 1.5, 0.3, { fontSize: 10, color: C.cyan, bold: true, charSpacing: 1 });
+  const betaFeatures = [
+    'Қазақша және орысша интерфейс',
+    'Мәтін мен сілтемені талдау',
+    'Қауіп деңгейі мен түсіндірме',
+    'Қауіпсіз келесі қадамдар'
+  ];
+  betaFeatures.forEach((value, i) => {
+    dot(s, 0.65, 4.25 + i * 0.47, 0.11, i === 3 ? C.green : C.cyan);
+    txt(s, value, 0.92, 4.14 + i * 0.47, 3.2, 0.32, { fontSize: 10.8, bold: true });
+  });
+  rect(s, 0.62, 6.22, 3.62, 0.46, '10281F', C.green, 4);
+  txt(s, 'Мәтін браузерден сыртқа жіберілмейді.', 0.82, 6.31, 3.2, 0.27, { fontSize: 9.2, color: C.green, bold: true, align: 'center' });
+
+  rect(s, 4.55, 1.78, 7.82, 4.93, '09131A', C.cyan, 2);
+  s.addShape(ST.ellipse, { x: 4.83, y: 1.97, w: 0.09, h: 0.09, fill: { color: C.red }, line: { color: C.red } });
+  s.addShape(ST.ellipse, { x: 5.03, y: 1.97, w: 0.09, h: 0.09, fill: { color: C.yellow }, line: { color: C.yellow } });
+  s.addShape(ST.ellipse, { x: 5.23, y: 1.97, w: 0.09, h: 0.09, fill: { color: C.green }, line: { color: C.green } });
+  txt(s, 'saq-nine.vercel.app', 8.15, 1.9, 2.65, 0.22, { fontSize: 7.5, color: C.muted, align: 'center' });
+  s.addImage({ path: path.join(A, 'saq-beta-web.png'), x: 4.76, y: 2.24, w: 7.4, h: 4.22 });
+  footer(s, 'Бета-нұсқа қателесуі мүмкін; нәтиже абсолютті қауіпсіздік кепілі емес.');
+  note(s, 'SAQ енді тек презентациядағы идея емес. Жұмыс істейтін бета-нұсқа saq-nine.vercel.app мекенжайында қолжетімді. Онда пайдаланушы күмәнді мәтінді немесе сілтемені тексеріп, қауіп деңгейін, анықталған белгілерді және қауіпсіз келесі қадамдарды көре алады. Интерфейс қазақ және орыс тілдерінде жұмыс істейді.');
+}
+
+// 13 — QR арқылы ашу
+{
+  const s = pptx.addSlide();
+  bg(s, path.join(V, 'slide-12.png'), 48);
+  s.addShape(ST.rect, { x: 0, y: 0, w: 6.35, h: 7.5, fill: { color: C.bg, transparency: 7 }, line: { color: C.bg, transparency: 100 } });
+  brand(s, 13, 'QR арқылы ашу');
+  txt(s, 'SAQ-ты дәл қазір ашыңыз', 0.6, 0.95, 7.2, 0.72, { fontSize: 30, bold: true });
+
+  rect(s, 0.62, 1.82, 4.52, 4.92, 'F7FBFC', C.cyan, 1);
+  s.addImage({ path: QR, x: 1.27, y: 2.15, w: 3.22, h: 3.22 });
+  txt(s, 'QR-КОДТЫ СКАНЕРЛЕҢІЗ', 1.08, 5.62, 3.62, 0.28, { fontSize: 9, color: '0A5960', bold: true, align: 'center', charSpacing: 1.1 });
+  txt(s, 'saq-nine.vercel.app', 1.04, 6.06, 3.7, 0.36, { fontSize: 14, color: C.ink, bold: true, align: 'center' });
+
+  pill(s, 'БЕТА-НҰСҚА', 6.08, 1.88, 1.38, C.orange, C.ink);
+  txt(s, 'Сенбес бұрын — тексеріңіз.', 6.08, 2.55, 5.62, 0.72, { fontSize: 27, bold: true });
+  txt(s, 'Күмәнді хабарламаны немесе сілтемені SAQ-қа енгізіп, қауіп белгілерін қарапайым тілмен көріңіз.', 6.08, 3.45, 5.38, 0.78, { fontSize: 14, color: C.text, bold: true, valign: 'top' });
+
+  const qrPoints = [
+    ['01', 'Сканерлеңіз', 'QR-кодты телефон камерасымен ашыңыз.'],
+    ['02', 'Тексеріңіз', 'Күмәнді мәтінді немесе сілтемені енгізіңіз.'],
+    ['03', 'Қауіпсіз әрекет етіңіз', 'Нәтиже мен ұсынылған қадамдарды оқыңыз.']
+  ];
+  qrPoints.forEach((value, i) => {
+    const y = 4.62 + i * 0.56;
+    pill(s, value[0], 6.1, y, 0.52, i === 2 ? C.green : C.cyan, C.ink);
+    txt(s, value[1], 6.88, y - 0.03, 1.82, 0.3, { fontSize: 11.2, bold: true });
+    txt(s, value[2], 8.72, y - 0.05, 2.95, 0.38, { fontSize: 8.5, color: C.muted, valign: 'top' });
+  });
+  footer(s, 'SAQ банк, полиция немесе киберқауіпсіздік маманының орнын алмастырмайды.');
+  note(s, 'QR-код SAQ-тың жұмыс істейтін бета-нұсқасына апарады. Телефон камерасымен сканерлеп, күмәнді мәтінді немесе сілтемені тексеруге болады. SAQ қауіптің себебін түсіндіріп, қауіпсіз келесі қадамды ұсынады. Бұл ерте тест нұсқасы, сондықтан нәтиже абсолютті кепілдік емес. Өнімді қолданып көріп, кері байланыс беріңіз.');
 }
 
 pptx.writeFile({ fileName: path.join(ROOT, 'SAQ_Pitch_Deck_KZ_Final.pptx'), compression: true });
