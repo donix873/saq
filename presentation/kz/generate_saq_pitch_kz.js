@@ -1,4 +1,8 @@
-const pptxgen = require('pptxgenjs');
+import pptxgen from 'pptxgenjs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const pptx = new pptxgen();
 pptx.layout = 'LAYOUT_WIDE';
@@ -11,7 +15,9 @@ pptx.theme = { headFontFace: 'Noto Sans', bodyFontFace: 'Noto Sans', lang: 'kk-K
 
 const ST = pptx.ShapeType;
 const F = 'Noto Sans';
-const VISUAL_DIR = '/workspace/outputs/saq_kz_visuals';
+const ROOT = __dirname;
+const VISUAL_DIR = path.join(ROOT, 'visuals');
+const ASSET_DIR = path.join(ROOT, 'assets');
 const C = {
   bg: '081017', panel: '101B24', panel2: '142630', line: '263B47',
   text: 'F5F8FA', muted: '9FB2BE', cyan: '4DEEEA', blue: '5B9DFF',
@@ -372,11 +378,46 @@ function notes(slide, value) { slide.addNotes(value); }
   text(s, 'БАЙЛАНЫС', 6.82, 3.2, 2.3, 0.28, { fontSize: 9, color: C.cyan, bold: true, charSpacing: 1.1 });
   text(s, 'saq.protection@gmail.com', 6.82, 3.8, 4.8, 0.38, { fontSize: 15, bold: true });
   text(s, '@saq_kz_bot', 6.82, 4.34, 4.8, 0.38, { fontSize: 15, bold: true });
-  text(s, 'Веб-сайт: MVP кезеңі · жуырда', 6.82, 4.9, 4.8, 0.32, { fontSize: 11, color: C.muted });
+  text(s, 'Бета-нұсқа: saq-nine.vercel.app', 6.82, 4.9, 4.8, 0.32, { fontSize: 11, color: C.cyan, bold: true });
   text(s, 'SAQ', 0.75, 6.2, 1.6, 0.55, { fontSize: 30, bold: true });
   text(s, 'Сенбес бұрын ойлан.', 2.3, 6.25, 4.7, 0.42, { fontSize: 19, color: C.cyan, bold: true });
   text(s, 'Рақмет', 10.75, 6.28, 1.4, 0.3, { fontSize: 13, color: C.muted, align: 'right' });
-  notes(s, 'Қазір бізге ең алдымен нақты тексеру керек: 50–100 тест пайдаланушы, AI және cybersecurity менторы, сондай-ақ алаяқтық сценарийлеріне сараптамалық баға. Байланыс арналары осы слайдта көрсетілген. Веб-сайт дайын деп айтылмайды — ол MVP фазасында. SAQ-тың мақсаты: қауіпті әрекет алдында кідіріп, тексеруді жаңа цифрлық әдетке айналдыру.');
+  notes(s, 'Қазір бізге ең алдымен нақты тексеру керек: 50–100 тест пайдаланушы, AI және cybersecurity менторы, сондай-ақ алаяқтық сценарийлеріне сараптамалық баға. Жұмыс істейтін бета-нұсқа saq-nine.vercel.app мекенжайында қолжетімді. SAQ-тың мақсаты: қауіпті әрекет алдында кідіріп, тексеруді жаңа цифрлық әдетке айналдыру.');
 }
 
-pptx.writeFile({ fileName: '/workspace/outputs/SAQ_Pitch_Deck_KZ.pptx', compression: true });
+// 13 — Working beta / QR code
+{
+  const s = pptx.addSlide('SAQ_KZ');
+  visual(s, 12);
+  header(s, 13, 'Бета-нұсқа · қазір қолжетімді', 'SAQ-ты дәл қазір қолданып көріңіз');
+
+  pill(s, 'ЖҰМЫС ІСТЕЙТІН MVP', 0.76, 1.78, 1.83, C.green, C.ink);
+  text(s, 'Күмәнді хабарламаны немесе сілтемені ашпай тұрып тексеріңіз.', 0.76, 2.3, 6.65, 0.72, { fontSize: 20, bold: true, valign: 'top' });
+  text(s, 'SAQ қауіп белгілерін түсіндіреді және қауіпсіз келесі қадамды ұсынады.', 0.76, 3.02, 6.35, 0.55, { fontSize: 12, color: C.muted, valign: 'top' });
+
+  const features = [
+    ['01', 'Мәтін мен сілтемені тексеру', 'Асықтыру, қорқыту, құпия сұрау және күмәнді домендерді анықтайды.'],
+    ['02', 'Түсінікті нәтиже', 'Қауіп деңгейін, себептерін және нақты қауіпсіз әрекеттерді көрсетеді.'],
+    ['03', 'Қазақша және орысша', 'Интерфейс екі тілде жұмыс істейді, тарихты құрылғыда сақтауға болады.']
+  ];
+  features.forEach((f, i) => {
+    const y = 3.87 + i * 0.72;
+    pill(s, f[0], 0.78, y + 0.03, 0.52, i === 2 ? C.green : C.cyan, C.ink);
+    text(s, f[1], 1.55, y - 0.02, 2.68, 0.3, { fontSize: 12.2, bold: true });
+    text(s, f[2], 4.12, y - 0.03, 3.2, 0.46, { fontSize: 8.8, color: C.muted, valign: 'top' });
+  });
+
+  box(s, 0.76, 6.18, 6.55, 0.48, '0D2923', C.green);
+  text(s, 'Құпиялылық: тексерілетін мәтін серверге жіберілмейді.', 1.02, 6.27, 6.0, 0.27, { fontSize: 10.2, color: C.green, bold: true, align: 'center' });
+
+  box(s, 8.02, 1.76, 4.33, 4.92, 'F7FBFC', C.cyan);
+  s.addImage({ path: path.join(ASSET_DIR, 'saq-beta-qr.png'), x: 8.67, y: 2.12, w: 3.03, h: 3.03 });
+  text(s, 'QR-КОДТЫ СКАНЕРЛЕҢІЗ', 8.45, 5.33, 3.5, 0.28, { fontSize: 9, color: '0A5960', bold: true, align: 'center', charSpacing: 1.1 });
+  text(s, 'saq-nine.vercel.app', 8.4, 5.75, 3.55, 0.34, { fontSize: 14, color: C.ink, bold: true, align: 'center' });
+  text(s, 'БЕТА-НҰСҚА', 8.98, 6.24, 2.35, 0.25, { fontSize: 8, color: '536872', bold: true, align: 'center', charSpacing: 1.2 });
+
+  text(s, 'Бета-нұсқа қателесуі мүмкін және банк, полиция немесе киберқауіпсіздік маманының орнын алмастырмайды.', 0.78, 6.78, 11.45, 0.19, { fontSize: 7.1, color: '667B87', align: 'center' });
+  notes(s, 'Бұл QR-код SAQ-тың жұмыс істейтін бета-нұсқасына апарады. Қазір пайдаланушы күмәнді мәтінді немесе сілтемені тексеріп, қауіп деңгейін, анықталған белгілерді және қауіпсіз келесі қадамдарды көре алады. Интерфейс қазақ және орыс тілдерінде қолжетімді. Бұл ерте тест нұсқасы болғандықтан, нәтиже абсолютті кепілдік емес. QR-кодты сканерлеп, өнімді қолданып көріңіз және кері байланыс беріңіз.');
+}
+
+pptx.writeFile({ fileName: path.join(ROOT, 'SAQ_Pitch_Deck_KZ.pptx'), compression: true });
