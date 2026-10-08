@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="SAQ — лаконичная стартовая страница для нового проекта."
+    />
+    <title>SAQ — новый проект</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="SAQ — на главную">SAQ</a>
+      <nav aria-label="Основная навигация">
+        <a href="#about">О проекте</a>
+        <a href="#contact">Контакты</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <p class="eyebrow">Пространство для хорошей идеи</p>
+        <h1 id="hero-title">Начните с простого.<br />Развивайте смело.</h1>
+        <p class="hero-copy">
+          SAQ — чистая и быстрая основа для вашего следующего проекта.
+          Замените этот текст своей историей, когда будете готовы.
+        </p>
+        <a class="button" href="#about">Узнать больше</a>
+      </section>
+
+      <section class="about" id="about" aria-labelledby="about-title">
+        <div>
+          <p class="eyebrow">Основа</p>
+          <h2 id="about-title">Ничего лишнего</h2>
+        </div>
+        <div class="features">
+          <article>
+            <span aria-hidden="true">01</span>
+            <h3>Быстро</h3>
+            <p>Без внешних библиотек и тяжёлой сборки.</p>
+          </article>
+          <article>
+            <span aria-hidden="true">02</span>
+            <h3>Адаптивно</h3>
+            <p>Интерфейс хорошо выглядит на любом экране.</p>
+          </article>
+          <article>
+            <span aria-hidden="true">03</span>
+            <h3>Доступно</h3>
+            <p>Семантичная разметка и удобная навигация.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer id="contact">
+      <p>Готовы сделать следующий шаг?</p>
+      <a href="mailto:hello@example.com">hello@example.com</a>
+      <small>© <span id="year"></span> SAQ</small>
+    </footer>
+  </body>
+</html>
