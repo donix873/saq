@@ -1,10 +1,38 @@
 {
   "name": "saq",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
-  "description": "A lightweight static landing page",
+  "type": "module",
+  "description": "SAQ — explainable scam and social-engineering risk scanner",
   "scripts": {
-    "start": "python3 -m http.server 4173 --bind 0.0.0.0",
-    "test": "node --test"
+    "dev": "vite --host 0.0.0.0 --port 4173",
+    "start": "vite --host 0.0.0.0 --port 4173",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 4173",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "lucide-react": "^0.468.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@tailwindcss/vite": "^4.1.14",
+    "@types/node": "^24.10.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vitejs/plugin-react": "^5.0.4",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "tailwindcss": "^4.1.14",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.46.3",
+    "vite": "^7.1.7",
+    "vitest": "^4.0.7"
   }
 }
